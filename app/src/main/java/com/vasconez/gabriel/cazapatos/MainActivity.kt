@@ -1,7 +1,6 @@
 package com.vasconez.gabriel.cazapatos
 
 import android.os.Bundle
-import android.util.Patterns
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var emailEditText: TextInputEditText
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var loginButton: MaterialButton
+    private val loginValidator = LoginValidator()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,39 +50,27 @@ class MainActivity : AppCompatActivity() {
         val email = emailEditText.text.toString().trim()
         val password = passwordEditText.text.toString()
         
-        var isValid = true
-        
         // Clear previous errors
         emailInputLayout.error = null
         passwordInputLayout.error = null
         
-        // Validate email
-        if (email.isEmpty()) {
-            emailInputLayout.error = getString(R.string.error_empty_email)
-            isValid = false
-        } else if (!isValidEmail(email)) {
-            emailInputLayout.error = getString(R.string.error_invalid_email)
-            isValid = false
+        // Validate credentials
+        val (emailResult, passwordResult) = loginValidator.validateCredentials(email, password)
+        
+        // Show errors if validation failed
+        if (!emailResult.isValid) {
+            emailInputLayout.error = emailResult.errorMessage
         }
         
-        // Validate password
-        if (password.isEmpty()) {
-            passwordInputLayout.error = getString(R.string.error_empty_password)
-            isValid = false
-        } else if (password.length < 8) {
-            passwordInputLayout.error = getString(R.string.error_password_length)
-            isValid = false
+        if (!passwordResult.isValid) {
+            passwordInputLayout.error = passwordResult.errorMessage
         }
         
-        if (isValid) {
+        if (emailResult.isValid && passwordResult.isValid) {
             // Login successful - implement your login logic here
             // For now, we just clear the errors
             emailInputLayout.error = null
             passwordInputLayout.error = null
         }
-    }
-    
-    private fun isValidEmail(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }
