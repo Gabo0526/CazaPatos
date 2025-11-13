@@ -8,4 +8,12 @@
     <string name="error_password_length">La contraseña debe tener al menos 8 caracteres</string>
     <string name="error_empty_email">El email no puede estar vacío</string>
     <string name="error_empty_password">La contraseña no puede estar vacía</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="text_remember_me">Remember me</string>
+    <string name="text_start_game">Start game</string>
+    <string name="text_new_user">New user</string>
+    <string name="error_email_required">Email is required</string>
+    <string name="error_password_required">Password is required</string>
+    <string name="error_password_min_length">The password must have at least 3 characters</string>
 </resources>
